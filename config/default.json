@@ -1,3 +1,4 @@
 {
-	"mongoURI": "mongodb+srv://ben123:ben1234@cluster0.d5tgp.mongodb.net/contactKeeper?retryWrites=true&w=majority"
+	"mongoURI": "mongodb+srv://ben123:rocomama@cluster0.d5tgp.mongodb.net/Contactkeeper?retryWrites=true&w=majority",
+	"jwtSecret": "thekeeperapp"
 }
