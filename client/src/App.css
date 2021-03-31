@@ -353,6 +353,13 @@ table th {
 	background: var(--light-color);
 }
 
+.badge1 {
+	background-color: #003699;
+}
+.badge2 {
+	background-color: #dc3545;
+}
+
 /* Navbar */
 .navbar {
 	display: flex;

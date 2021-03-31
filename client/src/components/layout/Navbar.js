@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ title, icon }) => {
 	return (
@@ -8,6 +9,20 @@ const Navbar = ({ title, icon }) => {
 				<i className={icon} />
 				{title}
 			</h1>
+			<ul>
+				<li>
+					<Link to='/'>
+						<i className='fas fa-house-damage' />
+						Home
+					</Link>
+				</li>
+				<li>
+					<Link to='/about'>
+						<i className='fas fa-question-circle' />
+						About
+					</Link>
+				</li>
+			</ul>
 		</div>
 	);
 };
@@ -19,7 +34,7 @@ Navbar.propTypes = {
 
 Navbar.defaultProps = {
 	title: 'Contact Keeper',
-	icon: 'fas fa-phone-square-alt',
+	icon: 'fas fa-address-card',
 };
 
 export default Navbar;
