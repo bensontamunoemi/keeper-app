@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext';
+import { CLEAR_CURRENT } from '../../context/types';
 import ContactItems from './ContactItems';
 
 const ContactForm = () => {
@@ -12,12 +13,16 @@ const ContactForm = () => {
 
 	const contactContext = useContext(ContactContext);
 
-	const { addContact, current } = contactContext;
+	const { addContact, current, clearCurrent, updateContact } = contactContext;
 
 	const { name, email, phone, type } = contact;
 
 	const onChange = e => {
 		setContact({ ...contact, [e.target.name]: e.target.value });
+	};
+
+	const clearAll = () => {
+		clearCurrent();
 	};
 
 	useEffect(() => {
@@ -35,7 +40,14 @@ const ContactForm = () => {
 
 	const onSubmit = e => {
 		e.preventDefault();
-		addContact(contact);
+		if (current === null) {
+			addContact(contact);
+		} else {
+			updateContact(contact);
+
+			clearCurrent();
+		}
+
 		setContact({ name: '', email: '', phone: '', type: 'personal' });
 	};
 
@@ -88,6 +100,13 @@ const ContactForm = () => {
 					value={current ? 'Edit Contact' : 'Add Contact'}
 					className='btn btn-primary btn-block'
 				/>
+				{current && (
+					<div>
+						<button className='btn btn-light btn-block' onClick={clearAll}>
+							Clear
+						</button>
+					</div>
+				)}
 			</div>
 		</form>
 	);
