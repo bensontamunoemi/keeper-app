@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ContactContext from '../../context/contact/contactContext';
 import ContactItems from './ContactItems';
 
@@ -12,21 +12,38 @@ const ContactForm = () => {
 
 	const contactContext = useContext(ContactContext);
 
+	const { addContact, current } = contactContext;
+
 	const { name, email, phone, type } = contact;
 
 	const onChange = e => {
 		setContact({ ...contact, [e.target.name]: e.target.value });
 	};
 
+	useEffect(() => {
+		if (current !== null) {
+			setContact(current);
+		} else {
+			setContact({
+				name: '',
+				email: ' ',
+				phone: '',
+				type: 'personal',
+			});
+		}
+	}, [contactContext, current]);
+
 	const onSubmit = e => {
 		e.preventDefault();
-		contactContext.addContact(contact);
+		addContact(contact);
 		setContact({ name: '', email: '', phone: '', type: 'personal' });
 	};
 
 	return (
 		<form onSubmit={onSubmit}>
-			<h2 className='text-primary'>Add Contact</h2>
+			<h2 className='text-primary'>
+				{current ? 'Edit Contact' : 'Add Contact'}
+			</h2>
 			<input
 				type='text'
 				placeholder='Name'
@@ -68,7 +85,7 @@ const ContactForm = () => {
 			<div>
 				<input
 					type='submit'
-					value='Add Contact'
+					value={current ? 'Edit Contact' : 'Add Contact'}
 					className='btn btn-primary btn-block'
 				/>
 			</div>
