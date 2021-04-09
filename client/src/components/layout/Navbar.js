@@ -1,8 +1,47 @@
-import React from 'react';
+import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import AuthContext from '../../context/auth/authContext';
 
 const Navbar = ({ title, icon }) => {
+	const authContext = useContext(AuthContext);
+
+	const { logout, isAuthenticated, user, loadUser } = authContext;
+
+	useEffect(() => {
+		loadUser();
+		// eslint-disable-next-line
+	}, []);
+
+	const authLinks = (
+		<Fragment>
+			<li>
+				Hello <strong style={{ color: 'bisque' }}> {user && user.name}</strong>
+			</li>
+			<li>
+				<a href='#!'>
+					<i className='fas fa-sign-out-alt' />
+					<span className='hide-sm'>Logout</span>
+				</a>
+			</li>
+		</Fragment>
+	);
+	const guestLinks = (
+		<Fragment>
+			<li>
+				<Link to='/register'>
+					<i className='fas fa-user-plus' />
+					Register
+				</Link>
+			</li>{' '}
+			<li>
+				<Link to='/login'>
+					<i className='fas fa-sign-in-alt' />
+					Login
+				</Link>
+			</li>
+		</Fragment>
+	);
 	return (
 		<div className='navbar bg-primary'>
 			<h1>
@@ -10,7 +49,7 @@ const Navbar = ({ title, icon }) => {
 				{title}
 			</h1>
 			<ul>
-				<li>
+				{/* <li>
 					<Link to='/'>
 						<i className='fas fa-house-damage' />
 						Home
@@ -21,19 +60,8 @@ const Navbar = ({ title, icon }) => {
 						<i className='fas fa-question-circle' />
 						About
 					</Link>
-				</li>{' '}
-				<li>
-					<Link to='/register'>
-						<i className='fas fa-user-plus' />
-						Register
-					</Link>
-				</li>{' '}
-				<li>
-					<Link to='/login'>
-						<i className='fas fa-sign-in-alt' />
-						Login
-					</Link>
-				</li>
+				</li>{' '} */}
+				{isAuthenticated ? authLinks : guestLinks}
 			</ul>
 		</div>
 	);
