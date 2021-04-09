@@ -6,12 +6,19 @@ import AuthContext from '../../context/auth/authContext';
 const Navbar = ({ title, icon }) => {
 	const authContext = useContext(AuthContext);
 
-	const { logout, isAuthenticated, user, loadUser } = authContext;
+	const { logout, isAuthenticated, user, loadUser, loading } = authContext;
 
-	useEffect(() => {
-		loadUser();
-		// eslint-disable-next-line
-	}, []);
+	// useEffect(() => {
+	// 	loadUser();
+	// 	// eslint-disable-next-line
+	// }, []);
+
+	const onLogout = () => {
+		logout();
+	};
+
+	console.log('LOADING', loading);
+	console.log('LOADING', isAuthenticated);
 
 	const authLinks = (
 		<Fragment>
@@ -19,7 +26,7 @@ const Navbar = ({ title, icon }) => {
 				Hello <strong style={{ color: 'bisque' }}> {user && user.name}</strong>
 			</li>
 			<li>
-				<a href='#!'>
+				<a onClick={onLogout} href='#!'>
 					<i className='fas fa-sign-out-alt' />
 					<span className='hide-sm'>Logout</span>
 				</a>
@@ -61,7 +68,7 @@ const Navbar = ({ title, icon }) => {
 						About
 					</Link>
 				</li>{' '} */}
-				{isAuthenticated ? authLinks : guestLinks}
+				{localStorage.getItem('token') ? authLinks : guestLinks}
 			</ul>
 		</div>
 	);

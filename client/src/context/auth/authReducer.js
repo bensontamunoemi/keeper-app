@@ -24,13 +24,14 @@ export default (state, action) => {
 			return {
 				...state,
 				...action.payload,
-				isAuthenticated: true,
 				loading: false,
+				isAuthenticated: true,
 			};
 
 		case REGISTER_FAIL:
 		case AUTH_ERROR:
 		case LOGIN_FAIL:
+		case LOGOUT:
 			localStorage.removeItem('token');
 			return {
 				...state,

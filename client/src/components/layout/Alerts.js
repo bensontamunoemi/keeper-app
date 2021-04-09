@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import AlertContext from '../../context/alert/alertContext';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const Alerts = () => {
 	const alertContext = useContext(AlertContext);

@@ -23,6 +23,7 @@ const Register = props => {
 			setAlert(error, 'danger');
 			clearErrors();
 		}
+		// eslint-disable-next-line
 	}, [error, isAuthenticated, props.history]);
 
 	const { name, email, password, password2 } = user;
