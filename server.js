@@ -11,8 +11,6 @@ connectDB();
 app.use(express.json({ extended: false }));
 app.use(cors());
 
-app.get('/', (req, res) => res.send('API Running'));
-
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/contact', require('./routes/contact'));
