@@ -16,8 +16,8 @@ router.post(
 		check('email', 'Please include a valid email').isEmail(),
 		check(
 			'password',
-			'Please enter a password with 10 or mmore characters'
-		).isLength({ min: 10 }),
+			'Please enter a password with 6 or mmore characters'
+		).isLength({ min: 6 }),
 	],
 
 	async (req, res) => {
@@ -33,7 +33,7 @@ router.post(
 			if (user) {
 				return res
 					.status(400)
-					.json({ msg: `User with ${email} already exists` });
+					.json({ msg: `User with this email already exists` });
 			}
 			user = new User({
 				name,

@@ -7,6 +7,7 @@
 	--light-color: #f4f4f4;
 	--danger-color: #dc3545;
 	--success-color: #28a745;
+	--secondary-color: #f9f871;
 }
 
 * {
@@ -237,6 +238,14 @@ img {
 .alert-primary {
 	background: var(--primary-color);
 	color: #fff;
+}
+
+.btn-secondary,
+.bg-secondary,
+.badge-secondary,
+.alert-secondary {
+	background: var(--secondary-color);
+	color: #222831;
 }
 
 .btn-light,
