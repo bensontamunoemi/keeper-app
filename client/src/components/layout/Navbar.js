@@ -2,9 +2,11 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
+import ContactContext from '../../context/contact/contactContext';
 
 const Navbar = ({ title, icon }) => {
 	const authContext = useContext(AuthContext);
+	const contactContext = useContext(ContactContext);
 
 	const { logout, isAuthenticated, user, loadUser, loading } = authContext;
 
@@ -15,10 +17,8 @@ const Navbar = ({ title, icon }) => {
 
 	const onLogout = () => {
 		logout();
+		contactContext.clearContact();
 	};
-
-	console.log('LOADING', loading);
-	console.log('LOADING', isAuthenticated);
 
 	const authLinks = (
 		<Fragment>

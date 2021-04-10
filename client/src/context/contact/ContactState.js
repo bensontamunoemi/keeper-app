@@ -11,26 +11,63 @@ import {
 	UPDATE_CONTACT,
 	FILTER_CONTACTS,
 	CLEAR_FILTER,
+	CONTACT_ERROR,
+	GET_CONTACTS,
+	CLEAR_CONTACTS,
 } from '../types';
 
 const ContactState = props => {
 	const initialState = {
-		contacts: [],
+		contacts: null,
 		current: null,
 		filtered: null,
+		error: null,
 	};
 
 	const [state, dispatch] = useReducer(ContactReducer, initialState);
 
+	// GET_CONTACT
+	const getContact = async () => {
+		try {
+			const res = await axios.get('http://localhost:5000/api/contact');
+			dispatch({ type: GET_CONTACTS, payload: res.data });
+		} catch (err) {
+			dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+		}
+	};
 	// ADD_CONTACT,
-	const addContact = contact => {
-		contact.id = uuid();
-		dispatch({ type: ADD_CONTACT, payload: contact });
+	const addContact = async contact => {
+		const config = {
+			headers: {
+				ContentType: 'application/json',
+			},
+		};
+
+		try {
+			const res = await axios.post(
+				'http://localhost:5000/api/contact',
+				contact,
+				config
+			);
+			dispatch({ type: ADD_CONTACT, payload: res.data });
+		} catch (err) {
+			dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+		}
 	};
 
 	// DELETE_CONTACT,
-	const deleteContact = id => {
-		dispatch({ type: DELETE_CONTACT, payload: id });
+	const deleteContact = async id => {
+		try {
+			await axios.delete(`http://localhost:5000/api/contact/${id}`);
+			dispatch({ type: DELETE_CONTACT, payload: id });
+		} catch (err) {
+			dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+		}
+	};
+
+	// CLEAR_CURRENT,
+	const clearContact = () => {
+		dispatch({ type: CLEAR_CONTACTS });
 	};
 
 	// SET_CURRENT,
@@ -66,6 +103,7 @@ const ContactState = props => {
 				contacts: state.contacts,
 				current: state.current,
 				filtered: state.filtered,
+				error: state.error,
 				addContact,
 				deleteContact,
 				setCurrent,
@@ -73,6 +111,8 @@ const ContactState = props => {
 				updateContact,
 				filterContacts,
 				clearFilter,
+				getContact,
+				clearContact,
 			}}
 		>
 			{props.children}
