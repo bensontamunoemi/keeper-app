@@ -13,16 +13,18 @@ const ContactForm = () => {
 
 	const contactContext = useContext(ContactContext);
 
-	const { addContact, current, clearCurrent, updateContact } = contactContext;
+	const {
+		addContact,
+		current,
+		clearCurrent,
+		updateContact,
+		getContact,
+	} = contactContext;
 
 	const { name, email, phone, type } = contact;
 
 	const onChange = e => {
 		setContact({ ...contact, [e.target.name]: e.target.value });
-	};
-
-	const clearAll = () => {
-		clearCurrent();
 	};
 
 	useEffect(() => {
@@ -31,7 +33,7 @@ const ContactForm = () => {
 		} else {
 			setContact({
 				name: '',
-				email: ' ',
+				email: '',
 				phone: '',
 				type: 'personal',
 			});
@@ -44,11 +46,12 @@ const ContactForm = () => {
 			addContact(contact);
 		} else {
 			updateContact(contact);
-
-			clearCurrent();
+			getContact();
 		}
-
-		setContact({ name: '', email: '', phone: '', type: 'personal' });
+		clearAll();
+	};
+	const clearAll = () => {
+		clearCurrent();
 	};
 
 	return (
@@ -97,7 +100,7 @@ const ContactForm = () => {
 			<div>
 				<input
 					type='submit'
-					value={current ? 'Edit Contact' : 'Add Contact'}
+					value={current ? 'Update Contact' : 'Add Contact'}
 					className='btn btn-primary btn-block'
 				/>
 				{current && (

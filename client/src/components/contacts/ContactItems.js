@@ -2,25 +2,26 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import ContactContext from '../../context/contact/contactContext';
 
-const ContactItems = ({ contact }) => {
+const ContactItem = ({ contact }) => {
 	const contactContext = useContext(ContactContext);
 	const { deleteContact, setCurrent, clearCurrent } = contactContext;
+
 	const { _id, name, email, phone, type } = contact;
 
-	const onDelete = e => {
-		e.preventDefault();
+	const onDelete = () => {
 		deleteContact(_id);
 		clearCurrent();
 	};
+
 	return (
 		<div className='card bg-light'>
-			<h3 className='text-primary text-left '>
-				{name}
-				{''}
+			<h3 className='text-primary text-left'>
+				{name}{' '}
 				<span
-					style={costomBadge}
+					style={{ float: 'right' }}
 					className={
-						type === 'professional' ? 'badge-success' : 'badge-primary'
+						'badge ' +
+						(type === 'professional' ? 'badge-success' : 'badge-primary')
 					}
 				>
 					{type.charAt(0).toUpperCase() + type.slice(1)}
@@ -29,17 +30,12 @@ const ContactItems = ({ contact }) => {
 			<ul className='list'>
 				{email && (
 					<li>
-						<i
-							style={{ marginRight: '5px' }}
-							className='fas fa-envelope-open-text'
-						/>
-						{email}
+						<i className='fas fa-envelope-open' /> {email}
 					</li>
 				)}
 				{phone && (
 					<li>
-						<i style={{ marginRight: '5px' }} className='fas fa-phone-square' />
-						{phone}
+						<i className='fas fa-phone' /> {phone}
 					</li>
 				)}
 			</ul>
@@ -58,18 +54,8 @@ const ContactItems = ({ contact }) => {
 	);
 };
 
-const costomBadge = {
-	fontSize: ' 0.8rem',
-	padding: '0.2rem 0.7rem',
-	textAlign: 'center',
-	margin: '0.3rem',
-	color: '#fff',
-	borderRadius: '5px',
-	float: 'right',
-};
-
-ContactItems.propTypes = {
+ContactItem.propTypes = {
 	contact: PropTypes.object.isRequired,
 };
 
-export default ContactItems;
+export default ContactItem;

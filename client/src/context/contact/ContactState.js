@@ -2,7 +2,6 @@ import React, { useReducer } from 'react';
 import ContactContext from './contactContext';
 import ContactReducer from './contactReducer';
 import axios from 'axios';
-import { v4 as uuid } from 'uuid';
 import {
 	ADD_CONTACT,
 	DELETE_CONTACT,
@@ -30,9 +29,15 @@ const ContactState = props => {
 	const getContact = async () => {
 		try {
 			const res = await axios.get('http://localhost:5000/api/contact');
-			dispatch({ type: GET_CONTACTS, payload: res.data });
+			dispatch({
+				type: GET_CONTACTS,
+				payload: res.data,
+			});
 		} catch (err) {
-			dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+			dispatch({
+				type: CONTACT_ERROR,
+				payload: err.response.msg,
+			});
 		}
 	};
 	// ADD_CONTACT,
@@ -81,8 +86,24 @@ const ContactState = props => {
 	};
 
 	// UPDATE_CONTACT,
-	const updateContact = contact => {
-		dispatch({ type: UPDATE_CONTACT, payload: contact });
+	const updateContact = async contact => {
+		const config = {
+			headers: {
+				ContentType: 'application/json',
+			},
+		};
+
+		try {
+			const res = await axios.put(
+				`http://localhost:5000/api/contact/${contact._id}`,
+				contact,
+				config
+			);
+
+			dispatch({ type: UPDATE_CONTACT, payload: res.data });
+		} catch (err) {
+			dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+		}
 	};
 
 	// FILTER_CONTACTS,
